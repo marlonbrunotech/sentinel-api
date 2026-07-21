@@ -3,6 +3,7 @@ package br.com.marlon.sentinel.asset;
 import br.com.marlon.sentinel.asset.dto.AssetResponse;
 import br.com.marlon.sentinel.asset.dto.CreateAssetRequest;
 import br.com.marlon.sentinel.asset.dto.UpdateAssetRequest;
+import br.com.marlon.sentinel.exception.AssetNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,7 +26,7 @@ public class AssetService {
     public AssetResponse findById(Long id) {
 
         Asset asset = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Asset not found."));
+                .orElseThrow(() -> new AssetNotFoundException("Asset with id " + id + " was not found."));
 
         return toResponse(asset);
     }
@@ -51,7 +52,7 @@ public class AssetService {
     }
 
     public AssetResponse updateAsset(Long id, UpdateAssetRequest request) {
-        Asset existingAsset = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Asset not found."));
+        Asset existingAsset = repository.findById(id).orElseThrow(() -> new AssetNotFoundException("Asset with id " + id + " was not found."));
         existingAsset.setHostname(request.getHostname());
         existingAsset.setIp(request.getIp());
         existingAsset.setOperatingSystem(request.getOperatingSystem());
@@ -70,7 +71,7 @@ public class AssetService {
     }
 
     public void deleteById(Long id){
-        Asset existingAsset = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Asset not found."));
+        Asset existingAsset = repository.findById(id).orElseThrow(()-> new AssetNotFoundException("Asset with id " + id + " was not found."));
         repository.delete(existingAsset);
     }
 

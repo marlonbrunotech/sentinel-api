@@ -3,6 +3,7 @@ package br.com.marlon.sentinel.asset;
 import br.com.marlon.sentinel.asset.dto.AssetResponse;
 import br.com.marlon.sentinel.asset.dto.CreateAssetRequest;
 import br.com.marlon.sentinel.asset.dto.UpdateAssetRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,12 @@ public class AssetController {
     }
 
     @PostMapping
-    public AssetResponse save(@RequestBody CreateAssetRequest request){
+    public AssetResponse save(@Valid @RequestBody CreateAssetRequest request){
         return service.save(request);
     }
 
     @PutMapping("/{id}")
-    public AssetResponse update(@PathVariable Long id, @RequestBody UpdateAssetRequest request){
+    public AssetResponse update(@PathVariable Long id, @Valid @RequestBody UpdateAssetRequest request){
         return service.updateAsset(id, request);
     }
 
