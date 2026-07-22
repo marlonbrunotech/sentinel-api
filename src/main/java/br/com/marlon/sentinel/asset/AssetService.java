@@ -4,9 +4,7 @@ import br.com.marlon.sentinel.asset.dto.AssetResponse;
 import br.com.marlon.sentinel.asset.dto.CreateAssetRequest;
 import br.com.marlon.sentinel.asset.dto.UpdateAssetRequest;
 import br.com.marlon.sentinel.exception.AssetNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
