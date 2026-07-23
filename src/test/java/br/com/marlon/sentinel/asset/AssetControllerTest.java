@@ -129,7 +129,7 @@ class AssetControllerTest {
 
         mockMvc.perform(post("/assets").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(50))
                 .andExpect(jsonPath("$.hostname").value("pc01"))
                 .andExpect(jsonPath("$.ip").value("222.222.222.33"))
@@ -235,7 +235,7 @@ class AssetControllerTest {
 
         Long id = 10L;
 
-        mockMvc.perform(delete("/assets/{id}", id)).andExpect(status().isOk());
+        mockMvc.perform(delete("/assets/{id}", id)).andExpect(status().isNoContent());
 
         verify(service).deleteById(id);
     }

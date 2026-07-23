@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,9 +45,10 @@ public class AssetController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Register a new asset", description = "Registers a new asset in the inventory")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "201",
             description = "Asset registered successfully"),
             @ApiResponse(responseCode = "400",
             description = "Invalid request data")
@@ -70,9 +72,10 @@ public class AssetController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete an asset", description = "Deletes the asset registered with the specified ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "204",
             description = "Asset deleted successfully"),
             @ApiResponse(responseCode = "404",
             description = "Asset not found")
