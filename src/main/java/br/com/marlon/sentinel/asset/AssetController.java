@@ -9,8 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,8 +29,8 @@ public class AssetController {
     @GetMapping
     @Operation(summary = "List all assets", description = "Returns all assets registered in the inventory")
     @ApiResponse(responseCode = "200",
-    description = "Assets retrieved successfully")
-    public List<AssetResponse> findAll(){
+            description = "Assets retrieved successfully")
+    public List<AssetResponse> findAll() {
         return service.findAll();
     }
 
@@ -36,25 +38,30 @@ public class AssetController {
     @Operation(summary = "Find an asset by ID", description = "Returns the asset registered with the specified ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-            description = "Asset found successfully"),
+                    description = "Asset found successfully"),
             @ApiResponse(responseCode = "404",
-            description = "Asset not found" )
+                    description = "Asset not found")
     })
-    public AssetResponse findById(@PathVariable Long id){
+    public AssetResponse findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Register a new asset", description = "Registers a new asset in the inventory")
     @ApiResponses({
             @ApiResponse(responseCode = "201",
-            description = "Asset registered successfully"),
+                    description = "Asset registered successfully"),
             @ApiResponse(responseCode = "400",
-            description = "Invalid request data")
+                    description = "Invalid request data")
     })
-    public AssetResponse save(@Valid @RequestBody CreateAssetRequest request){
-        return service.save(request);
+    public ResponseEntity<AssetResponse> save(@Valid @RequestBody CreateAssetRequest request) {
+        AssetResponse createdAsset = service.save(request);
+
+        URI location = URI.create("/assets/" + createdAsset.getId());
+
+        return ResponseEntity.created(location).body(createdAsset);
+
+
     }
 
     @PutMapping("/{id}")
